@@ -22,7 +22,7 @@ const getGeoUsers = async (req, res, next) => {
       },
       maxDistance: 100000,
       spherical: true,
-      distanceField: "distance"
+      distanceField: "dist.calculated"
     });
 
     if (!users) {

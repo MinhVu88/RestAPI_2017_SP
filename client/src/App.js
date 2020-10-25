@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "./App.css";
 
 function App() {
@@ -7,16 +6,12 @@ function App() {
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
 
-  const handleSubmit = async e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-    await axios
-      .get(
-        `/api/users/geo?long=${parseFloat(longitude)}&lat=${parseFloat(
-          latitude
-        )}`
-      )
-      .then(response => setUsers(response.data))
+    fetch(`/api/users/geo?long=${longitude}&lat=${latitude}`)
+      .then(response => response.json())
+      .then(data => setUsers(data))
       .catch(error => console.log(error));
 
     setLongitude("");
@@ -49,8 +44,8 @@ function App() {
         </form>
         <ul>
           {users.length > 0 &&
-            users.map(user => (
-              <li key={user._id}>
+            users.map((user, index) => (
+              <li key={index}>
                 <span className={user.available}></span>
                 <span className="name">{user.name}</span>
                 <span className="age">{user.age}</span>
